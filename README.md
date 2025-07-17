@@ -7,3 +7,11 @@ De esta manera, cuando alguien necesite darle mantenimiento, tendrá a la mano t
 Ejecutar :
 npm i 
 En caso de error : npm i --force
+
+
+Faltante:
+-Me falto el editar 
+-Documentación y comentarios
+-Tests unitarios incluidos
+-Manejo avanzado de estados
+-Detallitos extras por falta de tiempo, se me cruzo con algo extra, pero sin duda con el timepo adecuado hubiera quedado excepcional.

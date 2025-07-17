@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { IonSelectOption, IonSelect, IonCardHeader, IonCardTitle, IonButton, IonIcon, IonCardContent, IonCard, IonItem, IonLabel, IonRange, IonSegmentButton, IonSegment, IonContent, IonToolbar, IonGrid, IonRow, IonCol, IonToggle, IonInput, IonCheckbox, IonRadioGroup, IonRadio, IonImg, IonTitle, IonHeader, IonButtons, IonFooter } from "@ionic/angular/standalone";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -51,10 +51,10 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
 
   isDragOver: boolean = false;
 
-  constructor(private route: ActivatedRoute, private fb: FormBuilder) { }
+  constructor(private routeActive: ActivatedRoute, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => this.templateId = params.get('id') ?? '')
+    this.routeActive.paramMap.subscribe(params => this.templateId = params.get('id') ?? '')
 
     this.templateForm = this.fb.group({
       name: [''],
@@ -119,6 +119,8 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
 
   logForm() {
     localStorage.setItem('plantillaPDF', JSON.stringify(this.templateForm.value));
+    this.router.navigateByUrl
+    this.router.navigate(['pdf-template']);
   }
 
   pinOpacity(value: number) {
