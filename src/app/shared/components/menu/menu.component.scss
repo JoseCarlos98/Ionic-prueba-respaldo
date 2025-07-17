@@ -1,0 +1,273 @@
+// src/app/components/menu/menu.component.scss
+/* Variables para el menú */
+:host {
+  --menu-width: 60px;
+  --menu-expanded-width: 260px;
+  --menu-transition: 0.3s ease-in-out;
+  --menu-bg-color: var(--ion-color-primary);
+  --menu-text-color: var(--ion-color-primary-contrast);
+  --menu-hover-bg: var(--ion-color-primary-tint);
+  --menu-hover-text: var(--ion-color-primary-contrast);
+  --menu-selected-bg: var(--ion-color-primary-tint);
+  --menu-selected-text: var(--ion-color-primary-contrast);
+  --menu-border-color: var(--ion-border-color, rgba(255, 255, 255, 0.1));
+}
+
+/* Menú lateral expandible */
+.sidebar-menu {
+  width: var(--menu-width);
+  height: 100%;
+  background-color: var(--menu-bg-color);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  overflow: hidden;
+  transition: width var(--menu-transition);
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--menu-border-color);
+
+  /* Estado expandido del menú */
+  &.expanded {
+    width: var(--menu-expanded-width);
+  }
+
+  /* Expandir al pasar el ratón (solo en pantallas grandes) */
+  @media (min-width: 992px) {
+    &:hover {
+      width: var(--menu-expanded-width);
+    }
+  }
+}
+
+/* Sección de perfil de usuario */
+.user-profile {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  padding-left: 10px;
+  border-bottom: 1px solid var(--menu-border-color);
+  height: 72px;
+  flex-shrink: 0;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.avatar-container {
+  min-width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.user-avatar {
+  height: 100%;
+}
+
+.user-info {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity var(--menu-transition), transform var(--menu-transition);
+  white-space: nowrap;
+  overflow: hidden;
+
+  .sidebar-menu.expanded &,
+  .sidebar-menu:hover & {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--menu-text-color);
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-email {
+  font-size: 12px;
+  color: var(--menu-text-color);
+  opacity: 0.7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Contenedor de los elementos del menú */
+.menu-items {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Grupo de menú con submenú */
+.menu-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Elemento individual del menú */
+.menu-item {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  padding: 0 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+  color: var(--menu-text-color);
+
+  &.parent {
+    justify-content: space-between;
+  }
+
+  &.child {
+    padding-left: 24px;
+    height: 40px;
+    font-size: 0.9em;
+  }
+
+  .user-role {
+    margin-top: 5px;
+
+    ion-badge {
+      font-size: 10px;
+      font-weight: normal;
+    }
+  }
+
+  .menu-icon {
+    font-size: 22px;
+    color: inherit;
+    opacity: 0.8;
+    margin-right: 16px;
+    min-width: 24px;
+  }
+
+  .submenu-indicator {
+    margin-right: 0;
+    margin-left: auto;
+    font-size: 18px;
+    transition: transform 0.3s ease;
+  }
+
+  .menu-label {
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity var(--menu-transition), transform var(--menu-transition);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+
+    .sidebar-menu.expanded &,
+    .sidebar-menu:hover & {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  &:hover {
+    background-color: var(--menu-hover-bg);
+
+    .menu-icon,
+    .submenu-indicator {
+      opacity: 1;
+    }
+  }
+
+  &.selected {
+    background-color: var(--menu-selected-bg);
+
+    .menu-icon {
+      opacity: 1;
+    }
+  }
+}
+
+/* Submenú */
+.submenu {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Ajustes para pantallas pequeñas/móviles */
+@media (max-width: 768px) {
+  :host {
+    --menu-width: 54px;
+    --menu-expanded-width: 200px;
+  }
+
+  /* En móviles, no expandir al hover, solo con el botón */
+  .sidebar-menu:hover:not(.expanded) {
+    width: var(--menu-width);
+  }
+
+  /* Mantener oculta la información del usuario en móviles salvo menú expandido */
+  .sidebar-menu:hover:not(.expanded) .user-info {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  /* Mantener ocultas las etiquetas del menú en móviles salvo menú expandido */
+  .sidebar-menu:hover:not(.expanded) .menu-label {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+}
+
+// src/app/components/menu/menu.component.scss
+/* Pie del menú (sección inferior) */
+.menu-footer {
+  display: flex;
+  flex-direction: column;
+  padding-top: 0px;
+  margin-top: auto;
+  flex-shrink: 0;
+
+  .menu-item {
+    color: rgb(253, 113, 114);
+
+    .menu-icon {
+      color: inherit;
+      opacity: 0.8;
+    }
+
+    &:hover {
+      background-color: rgba(253, 113, 114, 0.1);
+    }
+  }
+}
+
+.version-info {
+  font-size: 11px;
+  opacity: 0.6;
+  text-align: center;
+  padding: 8px 0 12px 0;
+  white-space: nowrap;
+  color: #ffffff;
+}
+
+/* Ajustes solo para los íconos de submenús */
+.menu-item.child .submenu-icon,
+.menu-item.child ion-icon {
+  font-size: 18px !important; /* Aumentamos el tamaño */
+  min-width: 18px !important; /* Aseguramos un ancho mínimo */
+  flex-shrink: 0 !important; /* Evitamos que se reduzca */
+  transform: scale(1) !important; /* Mantenemos la escala */
+}
+
+/* Para el menú colapsado, mantener íconos visibles */
+.sidebar-menu:not(.expanded) .menu-item.child ion-icon {
+  margin: 0 auto !important; /* Centrar */
+}

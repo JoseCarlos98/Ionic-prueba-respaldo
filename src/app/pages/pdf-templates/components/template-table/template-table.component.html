@@ -1,0 +1,45 @@
+<ion-card>
+  <ion-card-content>
+    <!-- Tabla para escritorio -->
+    <ng-container *ngIf="!isMobile; else mobileList">
+      <ion-grid>
+        <ion-row class="table-header">
+          <ion-col size="4">Nombre</ion-col>
+          <ion-col size="3">Tamaño de página</ion-col>
+          <ion-col size="3">Acciones</ion-col>
+        </ion-row>
+
+        <ion-row *ngFor="let template of templates" class="table-row">
+          <ion-col size="4">{{ template.name }}</ion-col>
+          <ion-col size="3">{{ template.pageSize }}</ion-col>
+          <ion-col size="3" class="actions">
+            <ion-button size="small" fill="clear" color="primary" [routerLink]="['editar', template.id]">
+              <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+            </ion-button>
+            <ion-button size="small" fill="clear" color="danger">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ng-container>
+
+    <!-- Lista de cards para móvil -->
+    <ng-template #mobileList>
+      <ion-card *ngFor="let template of templates" class="template-card">
+        <ion-card-header>
+          <ion-card-title>{{ template.name }}</ion-card-title>
+          <ion-note>{{ template.pageSize }}</ion-note>
+        </ion-card-header>
+        <ion-card-content class="actions-mobile">
+          <ion-button size="small" fill="clear" color="primary" [routerLink]="['editar', template.id]">
+            <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+          </ion-button>
+          <ion-button size="small" fill="clear" color="danger">
+            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </ng-template>
+  </ion-card-content>
+</ion-card>

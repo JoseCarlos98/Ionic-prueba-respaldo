@@ -1,0 +1,90 @@
+<!-- src/app/components/menu/menu.component.html -->
+<div class="sidebar-menu" [ngClass]="{ expanded: menuExpanded }">
+  <div class="user-profile">
+    <div class="avatar-container">
+      <img
+        [src]="userProfile?.avatar"
+        [alt]="userProfile?.name"
+        class="user-avatar"
+      />
+    </div>
+    <div class="user-info">
+      <div class="user-name">{{ userProfile?.name }}</div>
+      <div class="user-email">{{ userProfile?.email }}</div>
+      <div class="user-role" *ngIf="userProfile?.role">
+        <ion-badge size="small" color="light">{{ userProfile.role }}</ion-badge>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-items">
+    <ng-container *ngFor="let item of menuItems">
+      <!-- Solo mostrar si el usuario tiene los permisos necesarios -->
+      <ng-container *ngIf="canView(item)">
+        <!-- Ítem con submenú -->
+        <div *ngIf="hasChildren(item); else singleItem" class="menu-group">
+          <div class="menu-item parent" (click)="toggleSubmenu(item)">
+            <!-- Icono personalizado para el menú padre -->
+            <ion-icon
+              [name]="item.icon + '-outline'"
+              class="menu-icon"
+            ></ion-icon>
+            <span class="menu-label">{{ item.title }}</span>
+            <!-- Indicador de expandido/colapsado -->
+            <ion-icon
+              [name]="
+                item.expanded ? 'chevron-up-outline' : 'chevron-down-outline'
+              "
+              class="submenu-indicator"
+            ></ion-icon>
+          </div>
+
+          <div class="submenu" *ngIf="item.expanded">
+            <ng-container *ngFor="let child of item.children">
+              <ng-container *ngIf="canView(child)">
+                <div
+                  class="menu-item child"
+                  [routerLink]="[child.url]"
+                  routerLinkActive="selected"
+                  *ngIf="child.url"
+                >
+                  <ion-icon
+                    *ngIf="child.icon"
+                    [name]="child.icon + '-outline'"
+                  ></ion-icon>
+                  <span class="menu-label" style="padding-left: 16px">{{
+                    child.title
+                  }}</span>
+                </div>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Ítem sin submenú -->
+        <ng-template #singleItem>
+          <div
+            class="menu-item"
+            [routerLink]="[item.url]"
+            routerLinkActive="selected"
+            *ngIf="item.url"
+          >
+            <ion-icon
+              [name]="item.icon + '-outline'"
+              class="menu-icon"
+            ></ion-icon>
+            <span class="menu-label">{{ item.title }}</span>
+          </div>
+        </ng-template>
+      </ng-container>
+    </ng-container>
+  </div>
+  <!-- Sección inferior - Cerrar sesión y versión -->
+  <div class="menu-footer">
+    <div class="menu-item" (click)="logout()">
+      <ion-icon name="log-out-outline"></ion-icon>
+      <span class="menu-label">Cerrar Sesión</span>
+    </div>
+    <div class="version-info">{{ appVersion }}</div>
+  </div>
+</div>

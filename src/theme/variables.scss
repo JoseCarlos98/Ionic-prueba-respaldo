@@ -1,0 +1,231 @@
+// For information on how to create your own theme, please see:
+// http://ionicframework.com/docs/theming/
+
+/* Tema Purple para Ionic */
+
+:root {
+  ion-searchbar {
+    --box-shadow: none;
+    --border-radius: 20px;
+    padding: 10px;
+    // Personalización de los colores (opcional)
+    --background: var(--ion-color-light);
+    --placeholder-color: var(--ion-color-medium);
+    --icon-color: var(--ion-color-primary);
+
+    // Animación suave al recibir foco
+    transition: all 0.2s ease;
+
+    &:focus-within {
+      --background: white;
+      --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  /* Color primario y sus variaciones */
+  --ion-color-primary: #2d336b;
+  --ion-color-primary-rgb: 45, 51, 107;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #282d5e;
+  --ion-color-primary-tint: #42477b;
+
+  --ion-color-primary: #6fa8dc;
+  --ion-color-primary-rgb: 111, 168, 220;
+  --ion-color-primary-contrast: #000000;
+  --ion-color-primary-contrast-rgb: 0, 0, 0;
+  --ion-color-primary-shade: #6294c2;
+  --ion-color-primary-tint: #7db1e0;
+
+  --ion-color-primary: #473874;
+  --ion-color-primary-rgb: 71, 56, 116;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #3e3166;
+  --ion-color-primary-tint: #594c82;
+
+  /* Colores secundarios que complementan al primario */
+  --ion-color-secondary: #5260ff;
+  --ion-color-secondary-rgb: 82, 96, 255;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #4854e0;
+  --ion-color-secondary-tint: #6370ff;
+
+  /* Color de acento que combina bien con el púrpura */
+  --ion-color-tertiary: #7247c4;
+  --ion-color-tertiary-rgb: 114, 71, 196;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #643eac;
+  --ion-color-tertiary-tint: #8059ca;
+
+  /* Colores de éxito, advertencia, peligro y otros estado */
+
+  --ion-color-success: #24a959;
+  --ion-color-success-rgb: 36, 169, 89;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #20954e;
+  --ion-color-success-tint: #3ab26a;
+
+  --ion-color-warning: #ffc409;
+  --ion-color-warning-light: #fff3cd;
+  --ion-color-warning-rgb: 255, 196, 9;
+  --ion-color-warning-contrast: #000000;
+  --ion-color-warning-contrast-rgb: 0, 0, 0;
+  --ion-color-warning-shade: #e0ac08;
+  --ion-color-warning-tint: #ffca22;
+
+  --ion-color-danger: #fd7172;
+  --ion-color-danger-rgb: 253, 113, 114;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #df6364;
+  --ion-color-danger-tint: #fd7f80;
+
+  --ion-color-medium: #9699b5;
+  --ion-color-medium-rgb: 150, 153, 181;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 0, 0, 0;
+  --ion-color-medium-shade: #84879f;
+  --ion-color-medium-tint: #a1a3bc;
+
+  --ion-color-light: #eaeaf0;
+  --ion-color-light-rgb: 234, 234, 240;
+  --ion-color-light-contrast: #000000;
+  --ion-color-light-contrast-rgb: 0, 0, 0;
+  --ion-color-light-shade: #ceced3;
+  --ion-color-light-tint: #ececf2;
+
+  --ion-color-blue: #2a8cd3;
+  --ion-color-blue-light: #e6f4fb;
+  --ion-color-blue-rgb: 42, 140, 211;
+  --ion-color-blue-contrast: #fff;
+  --ion-color-blue-contrast-rgb: 255, 255, 255;
+  --ion-color-blue-shade: #257bba;
+  --ion-color-blue-tint: #3f98d7;
+
+  // Gris 10% más oscuro que color-light, con texto más claro para simular deshabilitado
+  --ion-color-gray: #d5d5db;
+  --ion-color-gray-rgb: 213, 213, 219;
+  --ion-color-gray-contrast: #7a7a7a;
+  --ion-color-gray-contrast-rgb: 122, 122, 122;
+  --ion-color-gray-shade: #c2c2c7;
+  --ion-color-gray-tint: #e0e0e5;
+}
+
+/* Modo oscuro - opcional */
+// @media (prefers-color-scheme: dark) {
+//   body {
+//     /* Colores de fondo y texto para modo oscuro */
+//     --ion-background-color: #1e1e1e;
+//     --ion-background-color-rgb: 30, 30, 30;
+//     --ion-text-color: #ffffff;
+//     --ion-text-color-rgb: 255, 255, 255;
+
+//     /* Colores de interfaz para modo oscuro */
+//     --ion-color-step-50: #2a2a2a;
+//     --ion-color-step-100: #363636;
+//     --ion-color-step-150: #414141;
+//     --ion-color-step-200: #4d4d4d;
+//     --ion-color-step-250: #595959;
+//     --ion-color-step-300: #656565;
+//     --ion-color-step-350: #717171;
+//     --ion-color-step-400: #7d7d7d;
+//     --ion-color-step-450: #898989;
+//     --ion-color-step-500: #959595;
+//     --ion-color-step-550: #a1a1a1;
+//     --ion-color-step-600: #adadad;
+//     --ion-color-step-650: #b8b8b8;
+//     --ion-color-step-700: #c4c4c4;
+//     --ion-color-step-750: #d0d0d0;
+//     --ion-color-step-800: #dbdbdb;
+//     --ion-color-step-850: #e7e7e7;
+//     --ion-color-step-900: #f3f3f3;
+//     --ion-color-step-950: #fefefe;
+
+//     /* Otros ajustes de modo oscuro */
+//     --ion-toolbar-background: #121212;
+//     --ion-tab-bar-background: #121212;
+//     --ion-card-background: #1c1c1c;
+//   }
+// }
+
+/* Clase para aplicar el tema purple a elementos específicos */
+.theme-purple {
+  --ion-color-primary: #2d336b;
+  --ion-color-primary-rgb: 45, 51, 107;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #282d5e;
+  --ion-color-primary-tint: #42477b;
+}
+
+.ion-color-blue {
+  --ion-color-base: var(--ion-color-blue);
+  --ion-color-base-rgb: var(--ion-color-blue-rgb);
+  --ion-color-contrast: var(--ion-color-blue-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-blue-contrast-rgb);
+  --ion-color-shade: var(--ion-color-blue-shade);
+  --ion-color-tint: var(--ion-color-blue-tint);
+}
+
+.ion-color-gray {
+  --ion-color-base: var(--ion-color-gray);
+  --ion-color-base-rgb: var(--ion-color-gray-rgb);
+  --ion-color-contrast: var(--ion-color-gray-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-gray-contrast-rgb);
+  --ion-color-shade: var(--ion-color-gray-shade);
+  --ion-color-tint: var(--ion-color-gray-tint);
+}
+
+/* En src/global.scss */
+.search-patient-modal2 {
+  --width: 500px;
+  --height: 600px;
+  --border-radius: 24px;
+}
+
+ion-modal {
+  --width: 500px;
+  --max-height: 600px;
+  --height: 80%;
+  --border-radius: 24px;
+
+  ion-toolbar {
+    color: white;
+    --background: var(--ion-color-medium);
+  }
+
+  ion-searchbar {
+    --box-shadow: none;
+    --border-radius: 20px;
+    padding: 10px;
+    // Personalización de los colores (opcional)
+    --background: var(--ion-color-light);
+    --placeholder-color: var(--ion-color-medium);
+    --icon-color: var(--ion-color-primary);
+
+    // Animación suave al recibir foco
+    transition: all 0.2s ease;
+
+    &:focus-within {
+      --background: white;
+      --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .searchbar-input.sc-ion-searchbar-md {
+      padding-inline-start: 3rem !important;
+    }
+  }
+}
+
+ion-header {
+  ion-toolbar {
+    --border-width: 0;
+    // --min-height: 60px;
+    --padding-top: 0px;
+    --padding-bottom: 0px;
+  }
+}

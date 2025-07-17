@@ -1,0 +1,27 @@
+# Build output directories
+dist/
+build/
+
+# Ionic output directories
+www/
+platforms/
+
+# Node modules
+node_modules/
+
+# Angular configurations y build output
+coverage/
+*.log
+*.lock
+
+# Configuración específica del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos generados por editores
+# .vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln

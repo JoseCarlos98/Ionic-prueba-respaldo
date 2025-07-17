@@ -1,0 +1,18 @@
+<ion-app>
+  <div class="app-container">
+    <!-- Componente de menú -->
+    <app-menu [menuItems]="menuItems" [menuExpanded]="menuExpanded" [userProfile]="userProfile" [appVersion]="version"
+      (logout)="logout()" *ngIf="isLogin"></app-menu>
+
+    <!-- Botón para expandir/contraer menú en móviles -->
+    <div class="menu-toggle" *ngIf="isLogin && isMobile" (click)="toggleMenu()">
+      <ion-icon [name]="menuExpanded ? 'chevron-back-outline' : 'chevron-forward-outline'"></ion-icon>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="main-content-wrapper">
+      <ion-router-outlet id="main-content" class="main-content"
+        [ngClass]="{ 'menu-expanded': menuExpanded, notLogin: !isLogin }"></ion-router-outlet>
+    </div>
+  </div>
+</ion-app>
