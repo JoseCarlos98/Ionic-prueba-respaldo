@@ -175,7 +175,7 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
 
   exportPDF() {
     const data = document.querySelector('.c-content-pdf') as HTMLElement;
-const pageFormat = this.templateForm.get('pageSize')?.value === 'media-carta' ? [530, 816] : 'a4';
+    const pageFormat = this.templateForm.get('pageSize')?.value === 'media-carta' ? [530, 816] : 'a4';
 
     html2canvas(data, {
       scale: 3,
@@ -195,7 +195,22 @@ const pageFormat = this.templateForm.get('pageSize')?.value === 'media-carta' ? 
       const imgWidth = canvas.width * ratio;
       const imgHeight = canvas.height * ratio;
 
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      const totalPages = 3;
+      for (let i = 1; i <= totalPages; i++) {
+        if (i > 1) pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+
+        pdf.setFontSize(10);
+        pdf.setTextColor(150);
+        pdf.setFont('helvetica', 'normal');
+
+        const text = `Página ${i} de ${totalPages}`;
+        const textWidth = pdf.getTextWidth(text);
+        const x = pageWidth - textWidth - 10;
+        const y = pageHeight - 10;
+        pdf.text(text, x, y);
+      }
+
       pdf.save('plantilla.pdf');
     });
   }
