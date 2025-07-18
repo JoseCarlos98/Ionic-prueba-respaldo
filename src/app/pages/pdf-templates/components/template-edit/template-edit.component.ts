@@ -78,14 +78,6 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
     return this.fb.group({
       type: ['text'],
       content: [''],
-      styles: this.fb.group({
-        bold: [false],
-        italic: [false],
-        bullet: [false],
-        color: ['#000000'],
-        width: [100],
-        height: [100]
-      })
     });
   }
 

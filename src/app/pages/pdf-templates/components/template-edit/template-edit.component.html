@@ -270,7 +270,8 @@
                       templateForm.get('watermark')?.value.height + 'px',
                 }">
 
-                <div class="header">
+                <div class="header-footer"
+                  [ngStyle]="{'grid-template-columns': 'repeat(' + templateForm.value.header.length + ', 1fr)'}">
                   <ng-container *ngFor="let col of templateForm.value.header">
                     <div>
                       <ng-container *ngIf="col.type === 'text'">
@@ -278,14 +279,15 @@
                       </ng-container>
 
                       <ng-container *ngIf="col.type === 'image'">
-                        <img *ngIf="col.type === 'image'" [src]="col.content" [style.width.px]="col.styles.width"
+                        <img [src]="col.content" [style.width.px]="col.styles.width"
                           [style.height.px]="col.styles.height">
                       </ng-container>
                     </div>
                   </ng-container>
                 </div>
 
-                <div class="header">
+                <div class="header-footer"
+                  [ngStyle]="{'grid-template-columns': 'repeat(' + templateForm.value.footer.length + ', 1fr)'}">
                   <ng-container *ngFor="let col of templateForm.value.footer">
                     <div>
                       <ng-container *ngIf="col.type === 'text'">
@@ -293,7 +295,7 @@
                       </ng-container>
 
                       <ng-container *ngIf="col.type === 'image'">
-                        <img *ngIf="col.type === 'image'" [src]="col.content" [style.width.px]="col.styles.width"
+                        <img [src]="col.content" [style.width.px]="col.styles.width"
                           [style.height.px]="col.styles.height">
                       </ng-container>
                     </div>
