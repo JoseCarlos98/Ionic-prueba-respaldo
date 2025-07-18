@@ -13,7 +13,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-content class="c-global-content">
+  <ion-content>
     <ion-card>
       <ion-card-header>
         <ion-card-title>Configuración de plantilla</ion-card-title>
@@ -21,14 +21,7 @@
       <ion-card-content>
         <ion-grid>
           <ion-row>
-            <ion-col size="12" size-md="6">
-              <ion-item>
-                <ion-label position="stacked">Título de la Plantilla</ion-label>
-                <ion-input formControlName="name" placeholder="Escribe aquí..."></ion-input>
-              </ion-item>
-            </ion-col>
-
-            <ion-col size="12" size-md="6">
+            <ion-col size="4" size-md="3">
               <ion-item>
                 <ion-label position="stacked">Tamaño de página</ion-label>
                 <ion-select formControlName="pageSize" placeholder="Selecciona tamaño">
@@ -90,40 +83,11 @@
 
                 <div>
                   <ion-card-content *ngIf="col.get('type')?.value === 'text'">
-                    <ion-item>
-                      <ion-label position="stacked">Texto</ion-label>
-                      <ion-input formControlName="content" placeholder="Escribe aquí..."></ion-input>
-                    </ion-item>
-
-                    <ion-grid formGroupName="styles">
-                      <ion-row>
-                        <ion-col size="6" size-md="3">
-                          <ion-item lines="none">
-                            <ion-label>Bold</ion-label>
-                            <ion-checkbox formControlName="bold" slot="start"></ion-checkbox>
-                          </ion-item>
-                        </ion-col>
-                        <ion-col size="6" size-md="3">
-                          <ion-item lines="none">
-                            <ion-label>Italic</ion-label>
-                            <ion-checkbox formControlName="italic" slot="start"></ion-checkbox>
-                          </ion-item>
-                        </ion-col>
-                        <ion-col size="6" size-md="3">
-                          <ion-item lines="none">
-                            <ion-label>Viñeta</ion-label>
-                            <ion-checkbox formControlName="bullet" slot="start"></ion-checkbox>
-                          </ion-item>
-                        </ion-col>
-                        <ion-col size="6" size-md="3">
-                          <ion-item lines="none">
-                            <ion-label>Color</ion-label>
-                            <input formControlName="color" type="color" style="margin-left: 8px;">
-                          </ion-item>
-                        </ion-col>
-                      </ion-row>
-                    </ion-grid>
+                    <quill-editor formControlName="content" [styles]="{ height: '200px' }"
+                      placeholder="Escribe aquí tu texto con formato...">
+                    </quill-editor>
                   </ion-card-content>
+
 
                   <ion-card-content *ngIf="col.get('type')?.value === 'image'">
                     <div class="drag-drop" (drop)="onFileDropped($event, col)" (dragover)="onDragOver($event)">
@@ -197,41 +161,10 @@
                 </ion-card-header>
 
                 <div>
-
                   <ion-card-content *ngIf="col.get('type')?.value === 'text'">
-                    <ion-item>
-                      <ion-label position="stacked">Texto</ion-label>
-                      <ion-input formControlName="content" placeholder="Escribe aquí..."></ion-input>
-                    </ion-item>
-
-                    <ion-grid formGroupName="styles">
-                      <ion-row>
-                        <ion-col size="6" size-md="3">
-                          <ion-item lines="none">
-                            <ion-label>Bold</ion-label>
-                            <ion-checkbox formControlName="bold" slot="start"></ion-checkbox>
-                          </ion-item>
-                        </ion-col>
-                        <ion-col size="6" size-md="3">
-                          <ion-item lines="none">
-                            <ion-label>Italic</ion-label>
-                            <ion-checkbox formControlName="italic" slot="start"></ion-checkbox>
-                          </ion-item>
-                        </ion-col>
-                        <ion-col size="6" size-md="3">
-                          <ion-item lines="none">
-                            <ion-label>Viñeta</ion-label>
-                            <ion-checkbox formControlName="bullet" slot="start"></ion-checkbox>
-                          </ion-item>
-                        </ion-col>
-                        <ion-col size="6" size-md="3">
-                          <ion-item lines="none">
-                            <ion-label>Color</ion-label>
-                            <input formControlName="color" type="color" style="margin-left: 8px;">
-                          </ion-item>
-                        </ion-col>
-                      </ion-row>
-                    </ion-grid>
+                    <quill-editor formControlName="content" [styles]="{ height: '200px' }"
+                      placeholder="Escribe aquí tu texto con formato...">
+                    </quill-editor>
                   </ion-card-content>
 
                   <ion-card-content *ngIf="col.get('type')?.value === 'image'">
@@ -336,26 +269,12 @@
                       templateForm.get('watermark')?.value.width + 'px ' + 
                       templateForm.get('watermark')?.value.height + 'px',
                 }">
-                <div class="info">
-                  <h1>Titulo: <span>{{templateForm.get('name')?.value}}</span></h1>
-                  <h1>Tamaño: <span>{{templateForm.get('pageSize')?.value}}</span></h1>
-                </div>
 
-
-                <h1>Cabecera:</h1>
                 <div class="header">
                   <ng-container *ngFor="let col of templateForm.value.header">
-                    <div [ngStyle]="{
-                      'font-weight': col.styles.bold ? 'bold' : 'normal',
-                      'font-style': col.styles.italic ? 'italic' : 'normal',
-                      'color': col.styles.color,
-                      'list-style-type': col.styles.bullet ? 'disc' : 'none',
-                      'padding-left': col.styles.bullet ? '1rem' : '0',
-                      'padding': '0.5rem',
-                      'height': col.styles.height + 'px'
-                    }">
+                    <div>
                       <ng-container *ngIf="col.type === 'text'">
-                        {{ col.content || '(sin contenido)' }}
+                        <div [innerHTML]="col.content || '(sin contenido)'"></div>
                       </ng-container>
 
                       <ng-container *ngIf="col.type === 'image'">
@@ -366,20 +285,11 @@
                   </ng-container>
                 </div>
 
-                <h1>Pie de página:</h1>
                 <div class="header">
                   <ng-container *ngFor="let col of templateForm.value.footer">
-                    <div [ngStyle]="{
-                      'font-weight': col.styles.bold ? 'bold' : 'normal',
-                      'font-style': col.styles.italic ? 'italic' : 'normal',
-                      'color': col.styles.color,
-                      'list-style-type': col.styles.bullet ? 'disc' : 'none',
-                      'padding-left': col.styles.bullet ? '1rem' : '0',
-                      'padding': '0.5rem',
-                      'height': col.styles.height + 'px'
-                    }">
+                    <div>
                       <ng-container *ngIf="col.type === 'text'">
-                        {{ col.content || '(sin contenido)' }}
+                        <div [innerHTML]="col.content || '(sin contenido)'"></div>
                       </ng-container>
 
                       <ng-container *ngIf="col.type === 'image'">

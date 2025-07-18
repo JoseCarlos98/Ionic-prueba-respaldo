@@ -30,7 +30,7 @@ export class TemplateTableComponent implements OnInit, OnDestroy {
 
   templates: Template[] = [];
 
-  LOCAL_STORAGE_KEY = 'plantillas_pdf';
+  LOCAL_STORAGE_KEY = 'pdfTemplates';
 
   dummy: Template[] = [
     {
@@ -94,24 +94,13 @@ export class TemplateTableComponent implements OnInit, OnDestroy {
     this.isMobile = window.innerWidth < 768;
   }
 
-  constructor(private router: Router) { }
+  constructor() { }
 
   ngOnInit() {
-    const storedTemplates = localStorage.getItem('pdfTemplates');
-    console.log(storedTemplates);
+    const storedTemplates = localStorage.getItem(this.LOCAL_STORAGE_KEY);
 
-    if (storedTemplates) {
-      try {
-        this.templates = JSON.parse(storedTemplates);
-      } catch (e) {
-        console.error('Error parsing templates from localStorage', e);
-        this.templates = this.dummy;
-      }
-    }
-  }
-
-  goEdit(id: number) {
-    this.router.navigate(['pdf-template/editar', id]);
+    if (storedTemplates) this.templates = JSON.parse(storedTemplates);
+      else this.templates = this.dummy;
   }
 
   ngOnDestroy(): void {

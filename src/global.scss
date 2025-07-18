@@ -11,6 +11,7 @@
 
 /* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
+@import 'quill/dist/quill.snow.css';
 
 /* Basic CSS for apps built with Ionic */
 @import "@ionic/angular/css/normalize.css";
@@ -159,7 +160,7 @@ ion-app {
 }
 
 .c-global-content {
-  padding: 55px 10px 55px 10px !important;
+  padding: 55px 30px 55px 30px !important;
 }
 
 ion-title,

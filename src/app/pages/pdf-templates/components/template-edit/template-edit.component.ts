@@ -6,7 +6,7 @@ import { IonSelectOption, IonSelect, IonCardHeader, IonCardTitle, IonButton, Ion
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { Subject } from 'rxjs';
-
+import { QuillModule } from 'ngx-quill';
 @Component({
   selector: 'app-template-edit',
   templateUrl: './template-edit.component.html',
@@ -36,7 +36,8 @@ import { Subject } from 'rxjs';
     IonCardHeader,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    QuillModule,
   ]
 })
 export class TemplateEditComponent implements OnInit, OnDestroy {
@@ -57,7 +58,6 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe(params => this.templateId = params.get('id') ?? '')
 
     this.templateForm = this.fb.group({
-      name: [''],
       pageSize: [''],
       header: this.fb.array([
         this.createColumn()
