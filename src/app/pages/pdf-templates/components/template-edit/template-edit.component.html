@@ -84,7 +84,7 @@
                 <div>
                   <ion-card-content *ngIf="col.get('type')?.value === 'text'">
                     <quill-editor formControlName="content" [styles]="{ height: '200px' }"
-                      placeholder="Escribe aquí tu texto con formato...">
+                      placeholder="Escribe aquí tu texto...">
                     </quill-editor>
                   </ion-card-content>
 
@@ -163,7 +163,7 @@
                 <div>
                   <ion-card-content *ngIf="col.get('type')?.value === 'text'">
                     <quill-editor formControlName="content" [styles]="{ height: '200px' }"
-                      placeholder="Escribe aquí tu texto con formato...">
+                      placeholder="Escribe aquí tu texto...">
                     </quill-editor>
                   </ion-card-content>
 
@@ -254,58 +254,60 @@
     </ion-card>
 
     <ion-card>
-      <ion-card-header>
-        <ion-card-title>Vista previa</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col size="12">
-              <div class="c-content-pdf" [ngStyle]="{
+    <ion-card-header>
+      <ion-card-title>Vista previa</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12">
+            <div class="c-content-pdf" [ngStyle]="{
                   'background-image': 'url(' + templateForm.get('watermark')?.value.image + ')',
                   'background-repeat': 'no-repeat',
                   'background-position': 'center',
                   'background-size': 
                       templateForm.get('watermark')?.value.width + 'px ' + 
                       templateForm.get('watermark')?.value.height + 'px',
+                  'width.px': templateForm.get('pageSize')?.value === 'carta' ? 816 : 530,
+                  'height.px': templateForm.get('pageSize')?.value === 'carta' ? 1156 : 816
                 }">
 
-                <div class="header-footer"
-                  [ngStyle]="{'grid-template-columns': 'repeat(' + templateForm.value.header.length + ', 1fr)'}">
-                  <ng-container *ngFor="let col of templateForm.value.header">
-                    <div>
-                      <ng-container *ngIf="col.type === 'text'">
-                        <div [innerHTML]="col.content || '(sin contenido)'"></div>
-                      </ng-container>
+              <div class="header-footer c-header"
+                [ngStyle]="{'grid-template-columns': 'repeat(' + templateForm.value.header.length + ', 1fr)'}">
+                <ng-container *ngFor="let col of templateForm.value.header">
+                  <div>
+                    <ng-container *ngIf="col.type === 'text'">
+                      <div class="ql-editor" [innerHTML]="getSanitizedContent(col.content)"></div>
+                    </ng-container>
 
-                      <ng-container *ngIf="col.type === 'image'">
-                        <img [src]="col.content" [style.width.px]="col.styles.width"
-                          [style.height.px]="col.styles.height">
-                      </ng-container>
-                    </div>
-                  </ng-container>
-                </div>
-
-                <div class="header-footer"
-                  [ngStyle]="{'grid-template-columns': 'repeat(' + templateForm.value.footer.length + ', 1fr)'}">
-                  <ng-container *ngFor="let col of templateForm.value.footer">
-                    <div>
-                      <ng-container *ngIf="col.type === 'text'">
-                        <div [innerHTML]="col.content || '(sin contenido)'"></div>
-                      </ng-container>
-
-                      <ng-container *ngIf="col.type === 'image'">
-                        <img [src]="col.content" [style.width.px]="col.styles.width"
-                          [style.height.px]="col.styles.height">
-                      </ng-container>
-                    </div>
-                  </ng-container>
-                </div>
+                    <ng-container *ngIf="col.type === 'image'">
+                      <img [src]="col.content" [style.width.px]="col.styles.width"
+                        [style.height.px]="col.styles.height">
+                    </ng-container>
+                  </div>
+                </ng-container>
               </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
+
+              <div class="header-footer c-footer"
+                [ngStyle]="{'grid-template-columns': 'repeat(' + templateForm.value.footer.length + ', 1fr)'}">
+                <ng-container *ngFor="let col of templateForm.value.footer">
+                  <div>
+                  <ng-container *ngIf="col.type === 'text'">
+                      <div class="ql-editor" [innerHTML]="getSanitizedContent(col.content)"></div>
+                    </ng-container>
+
+                    <ng-container *ngIf="col.type === 'image'">
+                      <img [src]="col.content" [style.width.px]="col.styles.width"
+                        [style.height.px]="col.styles.height">
+                    </ng-container>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
     </ion-card>
 
     <ion-footer>

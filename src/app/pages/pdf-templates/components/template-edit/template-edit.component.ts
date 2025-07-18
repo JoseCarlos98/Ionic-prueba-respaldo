@@ -7,6 +7,7 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { Subject } from 'rxjs';
 import { QuillModule } from 'ngx-quill';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 @Component({
   selector: 'app-template-edit',
   templateUrl: './template-edit.component.html',
@@ -48,17 +49,21 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
 
   templateForm!: FormGroup;
 
-  watermark = new FormControl<boolean>(true);
+  watermark = new FormControl<boolean>(false);
 
   isDragOver: boolean = false;
 
-  constructor(private route: ActivatedRoute, private fb: FormBuilder) { }
+  constructor(
+    private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private sanitizer: DomSanitizer
+  ) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => this.templateId = params.get('id') ?? '')
 
     this.templateForm = this.fb.group({
-      pageSize: [''],
+      pageSize: ['carta'],
       header: this.fb.array([
         this.createColumn()
       ]),
@@ -78,6 +83,10 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
     return this.fb.group({
       type: ['text'],
       content: [''],
+      styles: this.fb.group({
+        width: [100],
+        height: [100]
+      })
     });
   }
 
@@ -188,6 +197,10 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
       pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
       pdf.save('plantilla.pdf');
     });
+  }
+
+  getSanitizedContent(content: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(content || '(sin contenido)');
   }
 
   ngOnDestroy(): void {
