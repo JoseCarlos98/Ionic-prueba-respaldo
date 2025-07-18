@@ -175,6 +175,7 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
 
   exportPDF() {
     const data = document.querySelector('.c-content-pdf') as HTMLElement;
+const pageFormat = this.templateForm.get('pageSize')?.value === 'media-carta' ? [530, 816] : 'a4';
 
     html2canvas(data, {
       scale: 3,
@@ -184,7 +185,7 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'px',
-        format: 'a4'
+        format: pageFormat
       });
 
       const pageWidth = pdf.internal.pageSize.getWidth();
