@@ -1,5 +1,4 @@
 <form [formGroup]="templateForm" class="form-template">
-
   <ion-header>
     <ion-toolbar>
       <ion-buttons slot="start">
@@ -14,260 +13,217 @@
   </ion-header>
 
   <ion-content>
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>Configuración de plantilla</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col size="12" size-md="6">
-              <ion-item>
-                <ion-label position="stacked">Título de la Plantilla</ion-label>
-                <ion-input formControlName="name" placeholder="Escribe aquí..."></ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col size="12" size-md="6">
-              <ion-item>
-                <ion-label position="stacked">Tamaño de página</ion-label>
-                <ion-select formControlName="pageSize" placeholder="Selecciona tamaño">
-                  <ion-select-option value="carta">Carta</ion-select-option>
-                  <ion-select-option value="media-carta">Media carta</ion-select-option>
-                </ion-select>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row class="card-cols-pdf" class="card-cols-pdf">
-            <ion-col formArrayName="header" size="12" size-md="6">
-              <ion-card-header>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="7" size-md="7">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Configuración de plantilla</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-grid>
                 <ion-row>
-                  <ion-col>
-                    <ion-card-title>Encabezado</ion-card-title>
+                  <ion-col size="12" size-md="6">
+                    <ion-item>
+                      <ion-label position="stacked">Título de la Plantilla</ion-label>
+                      <ion-input formControlName="name" placeholder="Escribe aquí..."></ion-input>
+                    </ion-item>
                   </ion-col>
-                  <ion-col>
-                    <ion-button size="small" color="primary" (click)="addHeaderColumn()"
-                      *ngIf="headerColumns.controls.length <= 3">
-                      <ion-icon slot="start" name="add-circle-outline"></ion-icon>
-                      Agregar
-                    </ion-button>
+                  <ion-col size="12" size-md="6">
+                    <ion-item>
+                      <ion-label position="stacked">Tamaño de página</ion-label>
+                      <ion-select formControlName="pageSize" placeholder="Selecciona tamaño">
+                        <ion-select-option value="carta">Carta</ion-select-option>
+                        <ion-select-option value="media-carta">Media carta</ion-select-option>
+                      </ion-select>
+                    </ion-item>
                   </ion-col>
                 </ion-row>
-              </ion-card-header>
+              </ion-grid>
+            </ion-card-content>
+          </ion-card>
 
-              <ion-card *ngFor="let col of headerColumns.controls; let i = index" [formGroupName]="i">
-                <ion-card-header>
-                  <ion-grid>
-                    <ion-row>
-                      <ion-col>
-                        <ion-card-title>Columna {{ i + 1 }}</ion-card-title>
-                      </ion-col>
-                      <ion-col>
-                        <ion-segment formControlName="type" [scrollable]="true" value="heart">
-                          <ion-segment-button value="text">
-                            <ion-label>Texto</ion-label>
-                          </ion-segment-button>
-                          <ion-segment-button value="image">
-                            <ion-label>Imagen</ion-label>
-                          </ion-segment-button>
-                        </ion-segment>
+          <ion-card>
+            <ion-card-content>
+              <ion-grid>
+                <ion-row class="card-cols-pdf" class="card-cols-pdf">
+                  <ion-col formArrayName="header" size="12" size-md="6">
+                    <ion-card-header>
+                      <ion-row>
+                        <ion-col>
+                          <ion-card-title>Encabezado</ion-card-title>
+                        </ion-col>
+                        <ion-col>
+                          <ion-button size="small" color="primary" (click)="addHeaderColumn()"
+                            *ngIf="headerColumns.controls.length <= 3">
+                            <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+                            Agregar
+                          </ion-button>
+                        </ion-col>
+                      </ion-row>
+                    </ion-card-header>
 
-                        <ion-button *ngIf="headerColumns.controls.length >1" size="small" fill="clear" color="danger"
-                          (click)="removeHeaderColumn(i)">
-                          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-                        </ion-button>
-                      </ion-col>
-                    </ion-row>
-                  </ion-grid>
-                </ion-card-header>
+                    <ion-card *ngFor="let col of headerColumns.controls; let i = index" [formGroupName]="i">
+                      <ion-card-header>
+                        <ion-grid>
+                          <ion-row>
+                            <ion-col>
+                              <ion-card-title>Columna {{ i + 1 }}</ion-card-title>
+                            </ion-col>
+                            <ion-col>
+                              <ion-segment formControlName="type" [scrollable]="true" value="heart">
+                                <ion-segment-button value="text">
+                                  <ion-label>Texto</ion-label>
+                                </ion-segment-button>
+                                <ion-segment-button value="image">
+                                  <ion-label>Imagen</ion-label>
+                                </ion-segment-button>
+                              </ion-segment>
 
-                <div>
-                  <ion-card-content *ngIf="col.get('type')?.value === 'text'">
-                    <quill-editor formControlName="content" [styles]="{ height: '200px' }"
-                      placeholder="Escribe aquí tu texto...">
-                    </quill-editor>
-                  </ion-card-content>
+                              <ion-button *ngIf="headerColumns.controls.length >1" size="small" fill="clear"
+                                color="danger" (click)="removeHeaderColumn(i)">
+                                <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                              </ion-button>
+                            </ion-col>
+                          </ion-row>
+                        </ion-grid>
+                      </ion-card-header>
 
-
-                  <ion-card-content *ngIf="col.get('type')?.value === 'image'">
-                    <div class="drag-drop" (drop)="onFileDropped($event, col)" (dragover)="onDragOver($event)">
-                      <p>Arrastra y suelta aquí o haz clic para seleccionar</p>
-                      <input type="file" hidden (change)="onFileSelected($event, col)" #fileInput>
-                      <ion-button expand="block" (click)="fileInput.click()">Seleccionar Imagen</ion-button>
                       <div>
-                        <img *ngIf="col.get('content')?.value" [src]="col.get('content')?.value"
-                          style="max-width:100%; margin-top:8px;">
+                        <ion-card-content *ngIf="col.get('type')?.value === 'text'">
+                          <quill-editor [modules]="quillModules" formControlName="content"
+                            [styles]="{ height: '200px' }" placeholder="Escribe aquí tu texto...">
+                          </quill-editor>
+                        </ion-card-content>
+
+                        <ion-card-content *ngIf="col.get('type')?.value === 'image'">
+                          <div class="drag-drop" (drop)="onFileDropped($event, col)" (dragover)="onDragOver($event)">
+                            <input type="file" hidden (change)="onFileSelected($event, col)" #fileInput>
+                            <ion-button expand="block" (click)="fileInput.click()">Seleccionar o arrastra
+                              Imagen</ion-button>
+                            <div>
+                              <img *ngIf="col.get('content')?.value" [src]="col.get('content')?.value"
+                                style="max-width:100%; margin-top:8px;">
+                            </div>
+                          </div>
+
+                          <div formGroupName="styles" class="imege-measures">
+                            <ion-item>
+                              <ion-label position="stacked">Alto</ion-label>
+                              <ion-input type="number" placeholder="Alto (px)" formControlName="height"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                              <ion-label position="stacked">Ancho</ion-label>
+                              <ion-input type="number" placeholder="Ancho (px)" formControlName="width"></ion-input>
+                            </ion-item>
+                          </div>
+                        </ion-card-content>
                       </div>
-                    </div>
-
-                    <div formGroupName="styles" class="imege-measures">
-                      <ion-item>
-                        <ion-label position="stacked">Alto</ion-label>
-                        <ion-input type="number" placeholder="Alto (px)" formControlName="height"></ion-input>
-                      </ion-item>
-                      <ion-item>
-                        <ion-label position="stacked">Ancho</ion-label>
-                        <ion-input type="number" placeholder="Ancho (px)" formControlName="width"></ion-input>
-                      </ion-item>
-                    </div>
-                  </ion-card-content>
-                </div>
-
-              </ion-card>
-
-            </ion-col>
-
-            <ion-col size="12" size-md="6" formArrayName="footer">
-              <ion-card-header>
-                <ion-row>
-                  <ion-col>
-                    <ion-card-title>Pïe de página</ion-card-title>
+                    </ion-card>
                   </ion-col>
-                  <ion-col>
-                    <ion-button size="small" color="primary" (click)="addFooterColumn()"
-                      *ngIf="footerColumns.controls.length <= 3">
-                      <ion-icon slot="start" name="add-circle-outline"></ion-icon>
-                      Agregar
-                    </ion-button>
+
+                  <ion-col size="12" size-md="6" formArrayName="footer">
+                    <ion-card-header>
+                      <ion-row>
+                        <ion-col>
+                          <ion-card-title>Pïe de página</ion-card-title>
+                        </ion-col>
+                        <ion-col>
+                          <ion-button size="small" color="primary" (click)="addFooterColumn()"
+                            *ngIf="footerColumns.controls.length <= 3">
+                            <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+                            Agregar
+                          </ion-button>
+                        </ion-col>
+                      </ion-row>
+                    </ion-card-header>
+
+                    <ion-card *ngFor="let col of footerColumns.controls; let i = index" [formGroupName]="i" size="12">
+                      <ion-card-header>
+                        <ion-grid>
+                          <ion-row>
+                            <ion-col>
+                              <ion-card-title>Columna {{ i + 1 }}</ion-card-title>
+                            </ion-col>
+                            <ion-col>
+                              <ion-segment formControlName="type" [scrollable]="true" value="heart">
+                                <ion-segment-button value="text">
+                                  <ion-label>Texto</ion-label>
+                                </ion-segment-button>
+                                <ion-segment-button value="image">
+                                  <ion-label>Imagen</ion-label>
+                                </ion-segment-button>
+                              </ion-segment>
+
+                              <ion-button *ngIf="footerColumns.controls.length >1" size="small" fill="clear"
+                                color="danger" (click)="removeFooterColumn(i)">
+                                <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                              </ion-button>
+                            </ion-col>
+                          </ion-row>
+                        </ion-grid>
+                      </ion-card-header>
+
+                      <div>
+                        <ion-card-content *ngIf="col.get('type')?.value === 'text'">
+                          <quill-editor [modules]="quillModules" formControlName="content"
+                            [styles]="{ height: '200px' }" placeholder="Escribe aquí tu texto...">
+                          </quill-editor>
+                        </ion-card-content>
+
+                        <ion-card-content *ngIf="col.get('type')?.value === 'image'">
+                          <div class="drag-drop" (drop)="onFileDropped($event, col)" (dragover)="onDragOver($event)">
+                            <input type="file" hidden (change)="onFileSelected($event, col)" #fileInput>
+                            <ion-button expand="block" (click)="fileInput.click()">Seleccionar o arrastra
+                              Imagen</ion-button>
+                            <div>
+                              <img *ngIf="col.get('content')?.value" [src]="col.get('content')?.value"
+                                style="max-width:100%; margin-top:8px;">
+                            </div>
+                          </div>
+
+                          <div formGroupName="styles" class="imege-measures">
+                            <ion-item>
+                              <ion-label position="stacked">Alto</ion-label>
+                              <ion-input type="number" placeholder="Alto (px)" formControlName="height"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                              <ion-label position="stacked">Ancho</ion-label>
+                              <ion-input type="number" placeholder="Ancho (px)" formControlName="width"></ion-input>
+                            </ion-item>
+                          </div>
+                        </ion-card-content>
+                      </div>
+                    </ion-card>
                   </ion-col>
                 </ion-row>
+              </ion-grid>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size="5" size-md="5">
+          <ion-card style="height: 780px;">
+            <ion-item lines="none" class="quantity-control">
+              Cantidad de páginas:
+              <ion-button fill="clear" color="primary" (click)="decrement()">
+                <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
+              </ion-button>
 
-              </ion-card-header>
+              <div class="quantity">{{ numberTemplates }}</div>
 
-              <ion-card *ngFor="let col of footerColumns.controls; let i = index" [formGroupName]="i" size="12">
-                <ion-card-header>
-                  <ion-grid>
-                    <ion-row>
-                      <ion-col>
-                        <ion-card-title>Columna {{ i + 1 }}</ion-card-title>
-                      </ion-col>
-                      <ion-col>
-                        <ion-segment formControlName="type" [scrollable]="true" value="heart">
-                          <ion-segment-button value="text">
-                            <ion-label>Texto</ion-label>
-                          </ion-segment-button>
-                          <ion-segment-button value="image">
-                            <ion-label>Imagen</ion-label>
-                          </ion-segment-button>
-                        </ion-segment>
+              <ion-button fill="clear" color="primary" (click)="increment()">
+                <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+              </ion-button>
+            </ion-item>
 
-                        <ion-button *ngIf="footerColumns.controls.length >1" size="small" fill="clear" color="danger"
-                          (click)="removeFooterColumn(i)">
-                          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-                        </ion-button>
-                      </ion-col>
-                    </ion-row>
-                  </ion-grid>
-                </ion-card-header>
-
-                <div>
-                  <ion-card-content *ngIf="col.get('type')?.value === 'text'">
-                    <quill-editor formControlName="content" [styles]="{ height: '200px' }"
-                      placeholder="Escribe aquí tu texto...">
-                    </quill-editor>
-                  </ion-card-content>
-
-                  <ion-card-content *ngIf="col.get('type')?.value === 'image'">
-                    <div class="drag-drop" (drop)="onFileDropped($event, col)" (dragover)="onDragOver($event)">
-                      <p>Arrastra y suelta aquí o haz clic para seleccionar</p>
-                      <input type="file" hidden (change)="onFileSelected($event, col)" #fileInput>
-                      <ion-button expand="block" (click)="fileInput.click()">Seleccionar Imagen</ion-button>
-                      <div>
-                        <img *ngIf="col.get('content')?.value" [src]="col.get('content')?.value"
-                          style="max-width:100%; margin-top:8px;">
-                      </div>
-                    </div>
-
-                    <div formGroupName="styles" class="imege-measures">
-                      <ion-item>
-                        <ion-label position="stacked">Alto</ion-label>
-                        <ion-input type="number" placeholder="Alto (px)" formControlName="height"></ion-input>
-                      </ion-item>
-                      <ion-item>
-                        <ion-label position="stacked">Ancho</ion-label>
-                        <ion-input type="number" placeholder="Ancho (px)" formControlName="width"></ion-input>
-                      </ion-item>
-                    </div>
-                  </ion-card-content>
-                </div>
-
-              </ion-card>
-            </ion-col>
-
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card class="watermark" [formGroup]="watermarkGroup">
-      <ion-card-header>
-        <ion-row>
-          <ion-col>
-            <ion-card-title>Marca de agua</ion-card-title>
-            <ion-checkbox formControlName="enabled"></ion-checkbox>
-          </ion-col>
-          <ion-col>
-          </ion-col>
-        </ion-row>
-
-      </ion-card-header>
-
-      <ion-card-content *ngIf="this.templateForm?.value?.watermark?.enabled">
-        <ion-grid>
-          <ion-row>
-            <ion-col size="12" size-md="6">
-              <div class="range-group">
-                <ion-item>
-                  <ion-label position="stacked">Alto</ion-label>
-                  <ion-input formControlName="height" placeholder="Alto (px)"></ion-input>
-                </ion-item>
-
-                <ion-item>
-                  <ion-label position="stacked">Ancho</ion-label>
-                  <ion-input formControlName="width" placeholder="Ancho (px)"></ion-input>
-                </ion-item>
-              </div>
-
-              <div class="range-group border-none">
-                <ion-label>Opacidad</ion-label>
-                <ion-range formControlName="opacity" class="pt-0" aria-label="Opacity" [pin]="true"
-                  [pinFormatter]="pinOpacity">
-                  <ion-label slot="start">0%</ion-label>
-                  <ion-label slot="end">100%</ion-label>
-                </ion-range>
-              </div>
-            </ion-col>
-
-            <ion-col size="12" size-md="6">
-              <div class="drag-drop" (drop)="onFileDroppedWatermark($event)" (dragover)="onDragOver($event)">
-                <p>Arrastra y suelta aquí o haz clic para seleccionar</p>
-                <input type="file" accept="image/*" hidden (change)="onFileSelectedWatermark($event)" #fileInput>
-                <ion-button expand="block" (click)="fileInput.click()">Seleccionar Imagen</ion-button>
-                <div>
-                  <img *ngIf="watermarkGroup.get('image')?.value" [src]="watermarkGroup.get('image')?.value">
-                </div>
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card>
-    <ion-card-header>
-      <ion-card-title>Vista previa</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-grid>
-        <ion-row>
-          <ion-col size="12" class="overflow-scroll">
-            <div class="c-content-pdf" [ngStyle]="{
+            <ion-card-header>
+              <ion-card-title>Vista previa</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="12" class="overflow-scroll">
+                    <div class="c-content-pdf" [ngStyle]="{
                   'background-image': 'url(' + templateForm.get('watermark')?.value?.image + ')',
                   'background-size': 
                       templateForm.get('watermark')?.value.width + 'px ' + 
@@ -276,43 +232,98 @@
                   'height.px': templateForm.get('pageSize')?.value === 'carta' ? 1156 : 816
                 }">
 
-              <div class="header-footer c-header"
-                [ngStyle]="{'grid-template-columns': 'repeat(' + templateForm.value.header.length + ', 1fr)'}">
-                <ng-container *ngFor="let col of templateForm.value.header">
-                  <div>
-                    <ng-container *ngIf="col.type === 'text'">
-                      <div class="ql-editor" [innerHTML]="getSanitizedContent(col.content)"></div>
-                    </ng-container>
+                      <div class="header-footer c-header"
+                        [ngStyle]="{'grid-template-columns': 'repeat(' + templateForm.value.header.length + ', 1fr)'}">
+                        <ng-container *ngFor="let col of templateForm.value.header">
+                          <div>
+                            <ng-container *ngIf="col.type === 'text'">
+                              <div class="ql-editor" [innerHTML]="getSanitizedContent(col.content)"></div>
+                            </ng-container>
 
-                    <ng-container *ngIf="col.type === 'image'">
-                      <img [src]="col.content" [style.width.px]="col.styles.width"
-                        [style.height.px]="col.styles.height">
-                    </ng-container>
-                  </div>
-                </ng-container>
-              </div>
+                            <ng-container *ngIf="col.type === 'image'">
+                              <img [src]="col.content" [style.width.px]="col.styles.width"
+                                [style.height.px]="col.styles.height">
+                            </ng-container>
+                          </div>
+                        </ng-container>
+                      </div>
 
-              <div class="header-footer c-footer"
-                [ngStyle]="{'grid-template-columns': 'repeat(' + templateForm.value.footer.length + ', 1fr)'}">
-                <ng-container *ngFor="let col of templateForm.value.footer">
-                  <div>
-                  <ng-container *ngIf="col.type === 'text'">
-                      <div class="ql-editor" [innerHTML]="getSanitizedContent(col.content)"></div>
-                    </ng-container>
+                      <div class="header-footer c-footer"
+                        [ngStyle]="{'grid-template-columns': 'repeat(' + templateForm.value.footer.length + ', 1fr)'}">
+                        <ng-container *ngFor="let col of templateForm.value.footer">
+                          <div>
+                            <ng-container *ngIf="col.type === 'text'">
+                              <div class="ql-editor" [innerHTML]="getSanitizedContent(col.content)"></div>
+                            </ng-container>
 
-                    <ng-container *ngIf="col.type === 'image'">
-                      <img [src]="col.content" [style.width.px]="col.styles.width"
-                        [style.height.px]="col.styles.height">
-                    </ng-container>
-                  </div>
-                </ng-container>
-              </div>
-            </div>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-card-content>
-    </ion-card>
+                            <ng-container *ngIf="col.type === 'image'">
+                              <img [src]="col.content" [style.width.px]="col.styles.width"
+                                [style.height.px]="col.styles.height">
+                            </ng-container>
+                          </div>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card class="watermark" [formGroup]="watermarkGroup">
+            <ion-card-header>
+              <ion-row>
+                <ion-col>
+                  <ion-card-title>Marca de agua</ion-card-title>
+                  <ion-checkbox formControlName="enabled"></ion-checkbox>
+                </ion-col>
+                <ion-col>
+                </ion-col>
+              </ion-row>
+            </ion-card-header>
+
+            <ion-card-content *ngIf="this.templateForm?.value?.watermark?.enabled">
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="12" size-md="6">
+                    <div class="range-group">
+                      <ion-item>
+                        <ion-label position="stacked">Alto</ion-label>
+                        <ion-input formControlName="height" placeholder="Alto (px)"></ion-input>
+                      </ion-item>
+
+                      <ion-item>
+                        <ion-label position="stacked">Ancho</ion-label>
+                        <ion-input formControlName="width" placeholder="Ancho (px)"></ion-input>
+                      </ion-item>
+                    </div>
+
+                    <div class="range-group border-none">
+                      <ion-label>Opacidad</ion-label>
+                      <ion-range formControlName="opacity" class="pt-0" aria-label="Opacity" [pin]="true"
+                        [pinFormatter]="pinOpacity">
+                        <ion-label slot="start">0%</ion-label>
+                        <ion-label slot="end">100%</ion-label>
+                      </ion-range>
+                    </div>
+                  </ion-col>
+
+                  <ion-col size="12" size-md="6">
+                    <div class="drag-drop" (drop)="onFileDroppedWatermark($event)" (dragover)="onDragOver($event)">
+                      <input type="file" accept="image/*" hidden (change)="onFileSelectedWatermark($event)" #fileInput>
+                      <ion-button expand="block" (click)="fileInput.click()">Seleccionar o arrastra Imagen</ion-button>
+                      <div>
+                        <img *ngIf="watermarkGroup.get('image')?.value" [src]="watermarkGroup.get('image')?.value">
+                      </div>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
     <ion-footer>
       <ion-toolbar>

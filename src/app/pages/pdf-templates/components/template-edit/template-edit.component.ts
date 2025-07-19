@@ -57,6 +57,20 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
   watermark = new FormControl<boolean>(false);
 
   isDragOver: boolean = false;
+  numberTemplates:number = 1;
+
+  quillModules = {
+    toolbar: [
+      [{ 'header': [1, 2, 3, false] }],
+      [{ 'font': [] }],
+      [{ 'size': ['small', false, 'large', 'huge'] }],
+      ['bold', 'italic', 'underline'],
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'align': [] }],
+      ['clean']
+    ]
+  };
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -163,10 +177,10 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
     const currentTemplates = this.getTemplatesFromStorage();
     let updatedTemplate = { ...this.templateForm.value };
     let newTemplates: Template[] = [];
-    
+
     updatedTemplate.id = this.templateId ? this.templateId : uuidv4();
     if (this.templateId) newTemplates = currentTemplates.map((template: Template) => template.id === this.templateId ? updatedTemplate : template);
-     else newTemplates = [...currentTemplates, updatedTemplate];
+    else newTemplates = [...currentTemplates, updatedTemplate];
 
     localStorage.setItem(this.LOCAL_STORAGE_KEY, JSON.stringify(newTemplates));
     this.router.navigateByUrl('pdf-template');
@@ -231,48 +245,55 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
   exportPDF() {
     const data = document.querySelector('.c-content-pdf') as HTMLElement;
     const pageFormat = this.templateForm.get('pageSize')?.value === 'media-carta' ? [530, 816] : 'a4';
- setTimeout(() => {
-    html2canvas(data, {
-      scale: 3,
-      useCORS: true
-    }).then(canvas => {
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'px',
-        format: pageFormat
+    setTimeout(() => {
+      html2canvas(data, {
+        scale: 3,
+        useCORS: true
+      }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF({
+          orientation: 'portrait',
+          unit: 'px',
+          format: pageFormat
+        });
+
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+
+        const ratio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height);
+        const imgWidth = canvas.width * ratio;
+        const imgHeight = canvas.height * ratio;
+
+        const totalPages = this.numberTemplates;
+        for (let i = 1; i <= totalPages; i++) {
+          if (i > 1) pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+          pdf.setFontSize(10);
+          pdf.setTextColor(150);
+          pdf.setFont('helvetica', 'normal');
+
+          const text = `Página ${i} de ${totalPages}`;
+          const textWidth = pdf.getTextWidth(text);
+          const x = pageWidth - textWidth - 10;
+          const y = pageHeight - 10;
+          pdf.text(text, x, y);
+        }
+
+        pdf.save('plantilla.pdf');
       });
-
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-
-      const ratio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height);
-      const imgWidth = canvas.width * ratio;
-      const imgHeight = canvas.height * ratio;
-
-      const totalPages = 3;
-      for (let i = 1; i <= totalPages; i++) {
-        if (i > 1) pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-
-        pdf.setFontSize(10);
-        pdf.setTextColor(150);
-        pdf.setFont('helvetica', 'normal');
-
-        const text = `Página ${i} de ${totalPages}`;
-        const textWidth = pdf.getTextWidth(text);
-        const x = pageWidth - textWidth - 10;
-        const y = pageHeight - 10;
-        pdf.text(text, x, y);
-      }
-
-      pdf.save('plantilla.pdf');
-    });
-      }, 100);
+    }, 100);
   }
 
   getSanitizedContent(content: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(content || '(sin contenido)');
+  }
+
+  increment() {
+    this.numberTemplates++;
+  }
+
+  decrement() {
+    if (this.numberTemplates > 1) this.numberTemplates--;
   }
 
   ngOnDestroy(): void {

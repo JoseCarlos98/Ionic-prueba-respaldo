@@ -165,32 +165,9 @@ ion-app {
 
 ion-title,
 ion-card-title {
+  font-size: 15px;
   font-weight: 600;
   color: #473874c7;
-}
-
-.header-with-button {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: row;
-
-  ion-button {
-    --border-radius: 8px;
-    --padding-start: 12px;
-    --padding-end: 12px;
-  }
-}
-
-.back-header-with-button {
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  flex-direction: row;
-
-  ion-card-title {
-    margin: 0;
-  }
 }
 
 .card-cols-pdf {
@@ -314,6 +291,10 @@ ion-card-title {
   justify-content: center;
   align-items: center;
 
+  ion-button {
+    font-size: 10px!important;
+  }
+
   p {
     text-align: center;
     margin-bottom: 10px;
@@ -350,7 +331,8 @@ ion-card-title {
   overflow: hidden;
   background-position: center;
   background-repeat: no-repeat;
-
+  transform: scale(0.6);      
+  transform-origin: top left;  
   .c-header {
     border-bottom: 1.6px solid #00000050;
     padding-bottom: 10px;
@@ -421,6 +403,22 @@ quill-editor {
   content: "\feff";
 }
 
-.ql-editor {
-  // padding: 0;
+ql-container ql-snow {
+  height: 125px!important;
+}
+
+.ql-toolbar.ql-snow + .ql-container.ql-snow {
+  height: 138px!important;
+}
+
+.quantity-control {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .quantity {
+    width: 20px;
+    text-align: center;
+    font-size: 16px;
+  }
 }
