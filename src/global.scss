@@ -306,7 +306,7 @@ ion-card-title {
 
     img {
       margin-top: 10px;
-      width: 200px;
+      width: 130px;
     }
   }
 }
@@ -333,6 +333,7 @@ ion-card-title {
   background-repeat: no-repeat;
   transform: scale(0.6);      
   transform-origin: top left;  
+
   .c-header {
     border-bottom: 1.6px solid #00000050;
     padding-bottom: 10px;
@@ -421,4 +422,19 @@ ql-container ql-snow {
     text-align: center;
     font-size: 16px;
   }
+}
+
+.preview {
+ height: auto;
+}
+
+.pdf-preview-container {
+  overflow: auto;  
+  width: fit-content; 
+  height: fit-content; 
+}
+
+.preview-col {
+  overflow: hidden;
+  height: 710px;
 }

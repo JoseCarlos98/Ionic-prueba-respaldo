@@ -63,7 +63,7 @@
                       </ion-row>
                     </ion-card-header>
 
-                    <ion-card *ngFor="let col of headerColumns.controls; let i = index" [formGroupName]="i">
+                    <ion-card *ngFor="let col of headerColumns.controls; let i = index" [formGroupName]="i" style="min-height: 280px;">
                       <ion-card-header>
                         <ion-grid>
                           <ion-row>
@@ -138,7 +138,7 @@
                       </ion-row>
                     </ion-card-header>
 
-                    <ion-card *ngFor="let col of footerColumns.controls; let i = index" [formGroupName]="i" size="12">
+                    <ion-card *ngFor="let col of footerColumns.controls; let i = index" [formGroupName]="i" size="12" style="min-height: 280px;">
                       <ion-card-header>
                         <ion-grid>
                           <ion-row>
@@ -201,8 +201,9 @@
             </ion-card-content>
           </ion-card>
         </ion-col>
+        
         <ion-col size="5" size-md="5">
-          <ion-card style="height: 780px;">
+          <ion-card class="preview">
             <ion-item lines="none" class="quantity-control">
               Cantidad de páginas:
               <ion-button fill="clear" color="primary" (click)="decrement()">
@@ -222,7 +223,8 @@
             <ion-card-content>
               <ion-grid>
                 <ion-row>
-                  <ion-col size="12" class="overflow-scroll">
+                  <ion-col size="12" class="preview-col">
+                    <div class="pdf-preview-container">
                     <div class="c-content-pdf" [ngStyle]="{
                   'background-image': 'url(' + templateForm.get('watermark')?.value?.image + ')',
                   'background-size': 
@@ -263,6 +265,7 @@
                           </div>
                         </ng-container>
                       </div>
+                    </div>
                     </div>
                   </ion-col>
                 </ion-row>
