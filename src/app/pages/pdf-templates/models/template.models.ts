@@ -15,12 +15,12 @@ export interface TemplateElement {
 }
 
 export interface TemplateStyles {
-  width: number;
+  width: number | null;
   height: number;
 }
 
 export interface Watermark {
-  image: string;   // base64 string
+  image: string;
   opacity: number;
   width: number;
   height: number;

@@ -6,8 +6,8 @@
         <ion-row class="table-header">
           <ion-col size="2">Nombre</ion-col>
           <ion-col size="3">Tamaño de página</ion-col>
-          <ion-col size="3">Cols del header</ion-col>
-          <ion-col size="2">Cols del Footer</ion-col>
+          <ion-col size="3">Columnas (Header) </ion-col>
+          <ion-col size="2">Columnas (Footer) </ion-col>
           <ion-col size="2">Acciones</ion-col>
         </ion-row>
 
@@ -20,7 +20,7 @@
             <ion-button size="small" fill="clear" color="primary" [routerLink]="['editar', template.id]">
               <ion-icon slot="icon-only" name="create-outline"></ion-icon>
             </ion-button>
-            <ion-button size="small" fill="clear" color="danger">
+            <ion-button size="small" fill="clear" color="danger" (click)="deleteTemplate(template.id!)">
               <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
             </ion-button>
           </ion-col>
@@ -38,6 +38,14 @@
         <ion-card-content>
           <p>Header: {{ template.header.length }} elementos</p>
           <p>Footer: {{ template.footer.length }} elementos</p>
+          <div class="d-flex justify-content-end">
+              <ion-button size="small" fill="clear" color="primary" [routerLink]="['editar', template.id]">
+              <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+            </ion-button>
+            <ion-button size="small" fill="clear" color="danger" (click)="deleteTemplate(template.id!)">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
+          </div>
         </ion-card-content>
       </ion-card>
     </ng-template>

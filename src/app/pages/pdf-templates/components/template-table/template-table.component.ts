@@ -25,10 +25,12 @@ import { Template } from '../../models/template.models';
     IonIcon
   ],
 })
-export class TemplateTableComponent implements OnInit, OnDestroy {
+export class TemplateTableComponent implements OnDestroy {
   private onDestroy$ = new Subject<void>();
 
-  @Input()templates: Template[] = [];
+  LOCAL_STORAGE_KEY = 'plantillaPDF';
+
+  @Input() templates: Template[] = [];
 
   isMobile = window.innerWidth < 768;
 
@@ -37,10 +39,17 @@ export class TemplateTableComponent implements OnInit, OnDestroy {
     this.isMobile = window.innerWidth < 768;
   }
 
-  constructor() { }
+  deleteTemplate(id: string) {
+    const currentTemplates = this.getTemplatesFromStorage();
+    const updatedTemplates = currentTemplates.filter((template: Template) => template.id !== id);
 
-  ngOnInit() {
-   
+    localStorage.setItem(this.LOCAL_STORAGE_KEY, JSON.stringify(updatedTemplates));
+    this.templates = updatedTemplates;
+  }
+
+  getTemplatesFromStorage() {
+    const data = localStorage.getItem(this.LOCAL_STORAGE_KEY);
+    return data ? JSON.parse(data) : [];
   }
 
   ngOnDestroy(): void {

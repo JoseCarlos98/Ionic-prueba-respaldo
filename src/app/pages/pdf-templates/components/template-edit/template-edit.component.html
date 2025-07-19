@@ -210,7 +210,7 @@
         <ion-row>
           <ion-col>
             <ion-card-title>Marca de agua</ion-card-title>
-            <ion-checkbox [formControl]="watermark"></ion-checkbox>
+            <ion-checkbox formControlName="enabled"></ion-checkbox>
           </ion-col>
           <ion-col>
           </ion-col>
@@ -218,7 +218,7 @@
 
       </ion-card-header>
 
-      <ion-card-content *ngIf="watermark.value">
+      <ion-card-content *ngIf="this.templateForm?.value?.watermark?.enabled">
         <ion-grid>
           <ion-row>
             <ion-col size="12" size-md="6">
@@ -266,11 +266,9 @@
     <ion-card-content>
       <ion-grid>
         <ion-row>
-          <ion-col size="12">
+          <ion-col size="12" class="overflow-scroll">
             <div class="c-content-pdf" [ngStyle]="{
-                  'background-image': 'url(' + templateForm.get('watermark')?.value.image + ')',
-                  'background-repeat': 'no-repeat',
-                  'background-position': 'center',
+                  'background-image': 'url(' + templateForm.get('watermark')?.value?.image + ')',
                   'background-size': 
                       templateForm.get('watermark')?.value.width + 'px ' + 
                       templateForm.get('watermark')?.value.height + 'px',

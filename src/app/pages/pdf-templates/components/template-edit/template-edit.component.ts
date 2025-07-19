@@ -8,7 +8,9 @@ import html2canvas from 'html2canvas';
 import { Subject } from 'rxjs';
 import { QuillModule } from 'ngx-quill';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Template } from '../../models/template.models';
+import { Template, TemplateElement } from '../../models/template.models';
+import { v4 as uuidv4 } from 'uuid';
+
 @Component({
   selector: 'app-template-edit',
   templateUrl: './template-edit.component.html',
@@ -64,8 +66,6 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.activeRoute.paramMap.subscribe(params => this.templateId = params.get('id') ?? '')
-
     this.templateForm = this.fb.group({
       name: [''],
       pageSize: ['carta'],
@@ -76,13 +76,49 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
         this.createColumn()
       ]),
       watermark: this.fb.group({
-        opacity: [0],
-        width: [0],
-        height: [0],
+        enabled: [false],
+        opacity: [100],
+        width: [100],
+        height: [100],
         image: ['']
       })
     });
+
+    this.activeRoute.paramMap.subscribe(params => {
+      this.templateId = params.get('id') ?? '';
+
+      if (this.templateId) {
+        const templates = this.getTemplatesFromStorage();
+        const templateToEdit = templates.find((t: Template) => t.id === this.templateId);
+
+        if (templateToEdit) {
+          this.templateForm.patchValue({
+            name: templateToEdit.name,
+            pageSize: templateToEdit.pageSize,
+            watermark: templateToEdit.watermark
+          });
+
+          this.patchFormArray(this.headerColumns, templateToEdit.header);
+          this.patchFormArray(this.footerColumns, templateToEdit.footer);
+        }
+      }
+    });
   }
+
+  patchFormArray(formArray: FormArray, data: TemplateElement[]) {
+    formArray.clear();
+    data.forEach(item => {
+      formArray.push(this.fb.group({
+        type: [item.type],
+        content: [item.content],
+        styles: this.fb.group({
+          width: [item.styles.width],
+          height: [item.styles.height]
+        })
+      }));
+    });
+  }
+
 
   createColumn() {
     return this.fb.group({
@@ -124,19 +160,25 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
   }
 
   saveTemplate() {
-    console.log(this.templateForm.value);
+    const currentTemplates = this.getTemplatesFromStorage();
+    let updatedTemplate = { ...this.templateForm.value };
+    let newTemplates: Template[] = [];
     
-    const currentTemplates = localStorage.getItem(this.LOCAL_STORAGE_KEY)
-    let template: Template[] = [this.templateForm.value]
-    
-    if (currentTemplates?.length) template.push(this.templateForm.value);
+    updatedTemplate.id = this.templateId ? this.templateId : uuidv4();
+    if (this.templateId) newTemplates = currentTemplates.map((template: Template) => template.id === this.templateId ? updatedTemplate : template);
+     else newTemplates = [...currentTemplates, updatedTemplate];
 
-    localStorage.setItem(this.LOCAL_STORAGE_KEY, JSON.stringify(template));
-    this.router.navigateByUrl('pdf-template')
+    localStorage.setItem(this.LOCAL_STORAGE_KEY, JSON.stringify(newTemplates));
+    this.router.navigateByUrl('pdf-template');
+  }
+
+  getTemplatesFromStorage() {
+    const data = localStorage.getItem(this.LOCAL_STORAGE_KEY);
+    return data ? JSON.parse(data) : [];
   }
 
   pinOpacity(value: number) {
-    return value;
+    return `${value}%`;
   }
 
   onDragOver(event: DragEvent) {
@@ -189,7 +231,7 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
   exportPDF() {
     const data = document.querySelector('.c-content-pdf') as HTMLElement;
     const pageFormat = this.templateForm.get('pageSize')?.value === 'media-carta' ? [530, 816] : 'a4';
-
+ setTimeout(() => {
     html2canvas(data, {
       scale: 3,
       useCORS: true
@@ -226,6 +268,7 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
 
       pdf.save('plantilla.pdf');
     });
+      }, 100);
   }
 
   getSanitizedContent(content: string): SafeHtml {

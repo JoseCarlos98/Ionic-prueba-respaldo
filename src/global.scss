@@ -307,22 +307,6 @@ ion-card-title {
   font-size: 12px;
 }
 
-.c-content-pdf {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background-color: white;
-  border: 1px solid #473874c7;
-  overflow: hidden;
-
-  .c-header {
-    border-bottom: 1.6px solid #00000050;
-  }
-
-  .c-footer {
-    border-top: 1.6px solid #00000050;
-  }
-}
 
 .drag-drop {
   display: flex;
@@ -358,6 +342,23 @@ ion-card-title {
   color: black;
   height: auto;
   min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: white;
+  border: 1px solid #473874c7;
+  overflow: hidden;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  .c-header {
+    border-bottom: 1.6px solid #00000050;
+    padding-bottom: 10px;
+  }
+  
+  .c-footer {
+    border-top: 1.6px solid #00000050;
+  }
 
   h1 {
     font-size: 20px;
