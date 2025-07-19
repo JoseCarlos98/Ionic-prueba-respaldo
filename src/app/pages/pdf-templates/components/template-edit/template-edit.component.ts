@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { IonSelectOption, IonSelect, IonCardHeader, IonCardTitle, IonButton, IonIcon, IonCardContent, IonCard, IonItem, IonLabel, IonRange, IonSegmentButton, IonSegment, IonContent, IonToolbar, IonGrid, IonRow, IonCol, IonToggle, IonInput, IonCheckbox, IonRadioGroup, IonRadio, IonImg, IonTitle, IonHeader, IonButtons, IonFooter } from "@ionic/angular/standalone";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { Subject } from 'rxjs';
 import { QuillModule } from 'ngx-quill';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Template } from '../../models/template.models';
 @Component({
   selector: 'app-template-edit',
   templateUrl: './template-edit.component.html',
@@ -49,20 +50,24 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
 
   templateForm!: FormGroup;
 
+  LOCAL_STORAGE_KEY = 'plantillaPDF';
+
   watermark = new FormControl<boolean>(false);
 
   isDragOver: boolean = false;
 
   constructor(
-    private route: ActivatedRoute,
+    private activeRoute: ActivatedRoute,
     private fb: FormBuilder,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => this.templateId = params.get('id') ?? '')
+    this.activeRoute.paramMap.subscribe(params => this.templateId = params.get('id') ?? '')
 
     this.templateForm = this.fb.group({
+      name: [''],
       pageSize: ['carta'],
       header: this.fb.array([
         this.createColumn()
@@ -118,8 +123,16 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
     this.footerColumns.removeAt(index);
   }
 
-  logForm() {
-    localStorage.setItem('plantillaPDF', JSON.stringify(this.templateForm.value));
+  saveTemplate() {
+    console.log(this.templateForm.value);
+    
+    const currentTemplates = localStorage.getItem(this.LOCAL_STORAGE_KEY)
+    let template: Template[] = [this.templateForm.value]
+    
+    if (currentTemplates?.length) template.push(this.templateForm.value);
+
+    localStorage.setItem(this.LOCAL_STORAGE_KEY, JSON.stringify(template));
+    this.router.navigateByUrl('pdf-template')
   }
 
   pinOpacity(value: number) {
